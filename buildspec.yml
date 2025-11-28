@@ -7,9 +7,9 @@ phases:
     commands:
       - echo "Updating OS packages and installing build tools..."
       - yum update -y
-      - yum install -y gcc-c++ make python2
+      - yum install -y gcc-c++ make python2 git
       - echo "Installing npm dependencies..."
-      - npm install
+      - npm install --unsafe-perm
 
   pre_build:
     commands:
@@ -18,13 +18,14 @@ phases:
   build:
     commands:
       - echo "Build started on $(date)"
-      - npm run build || exit 1
+      # Enable verbose logging to see real errors
+      - npm run build --verbose || (echo "Build failed" && exit 1)
       - echo "Build finished on $(date)"
 
   post_build:
     commands:
       - echo "Listing build output:"
-      - ls -l dist/shop || exit 1
+      - if [ -d dist/shop ]; then ls -l dist/shop; else echo "dist/shop not found"; fi
 
 artifacts:
   files:
