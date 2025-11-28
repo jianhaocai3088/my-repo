@@ -1,26 +1,31 @@
 version: 0.2
+
 phases:
   install:
     runtime-versions:
       nodejs: 12
     commands:
-      - echo Build started on 'data'
+      - echo "Updating OS packages and installing build tools..."
+      - yum update -y
+      - yum install -y gcc-c++ make python2
+      - echo "Installing npm dependencies..."
       - npm install
+
   pre_build:
     commands:
-      - echo Nothing to do in the pre_build phases
+      - echo "Nothing to do in pre_build"
+
   build:
     commands:
-      - echo npm install completed on 'data'
-      - npm run build
-      - echo npm run build completed on 'data'
+      - echo "Build started on $(date)"
+      - npm run build || exit 1
+      - echo "Build finished on $(date)"
+
   post_build:
     commands:
-      - echo Build completed on 'data'
-      - ls -l dist/shop/
+      - echo "Listing build output:"
+      - ls -l dist/shop || exit 1
+
 artifacts:
   files:
-    - dist/shop/**/* 
-  # - appspec.yml
-
-          
+    - dist/shop/**/*
