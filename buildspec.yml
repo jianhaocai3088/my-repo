@@ -2,14 +2,15 @@ version: 0.2
 phases:
   install:
     runtime-versions:
-      nodejs: 16
+      nodejs: 18
+    commands:
+      - echo Build started on 'data'
+      - npm install
   pre_build:
     commands:
       - echo Nothing to do in the pre_build phases
   build:
     commands:
-      - echo Build started on 'data'
-      - npm install
       - echo npm install completed on 'data'
       - npm run build
       - echo npm run build completed on 'data'
@@ -17,10 +18,9 @@ phases:
     commands:
       - echo Build completed on 'data'
       - ls -l ./dist/shop/
-artifact:
+artifacts:
   files:
-    - ./dist/shop/*
-    - ./dist/shop/assets/*
-    # - appspec.yml
+    - dist/shop/**/* 
+  # - appspec.yml
 
           
