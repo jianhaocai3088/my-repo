@@ -1,32 +1,25 @@
 version: 0.2
 
 phases:
-  install:
-    runtime-versions:
-      nodejs: 12
-    commands:
-      - echo "Updating OS packages and installing build tools..."
-      - yum update -y
-      - yum install -y gcc-c++ make python2 git
-      - echo "Installing npm dependencies..."
-      - npm install --unsafe-perm
-
-  pre_build:
-    commands:
-      - echo "Nothing to do in pre_build"
-
-  build:
-    commands:
-      - echo "Build started on $(date)"
-      # Enable verbose logging to see real errors
-      - npm run build --verbose || (echo "Build failed" && exit 1)
-      - echo "Build finished on $(date)"
-
-  post_build:
-    commands:
-      - echo "Listing build output:"
-      - if [ -d dist/shop ]; then ls -l dist/shop; else echo "dist/shop not found"; fi
-
+    install:
+        runtime-versions:
+            nodejs: 16
+    pre_build:
+        commands:
+            - echo Nothing to do in the pre_build phase...
+    build:
+        commands:
+            - echo Build started on `data`
+            - npm install
+            - echo npm install completed on `data`
+            - npm run build 
+            - echo npm run build completed on `data`
+    post_build:
+        commands:
+            - echo Build completed on `data`
+            - ls -l ./dist/shop/
 artifacts:
-  files:
-    - dist/shop/**/*
+    files:
+        - ./dist/shop/*
+        - ./dist/shop/assets/*
+        - appspec.yml
